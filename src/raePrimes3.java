@@ -1,19 +1,14 @@
-import java.io.File;
-import java.io.FileWriter;
-import java.io.IOException;
 import java.text.DecimalFormat;
 import java.util.Arrays;
 import java.util.Scanner;
 
-public class raePrimes2 {
+public class raePrimes3 {
     static Scanner scanny = new Scanner(System.in);
     public static long primeSieve(int n) {
         int estimatedLimit = (int)((Math.log(n) + Math.log(Math.log(n)) - 1 + ( (Math.log(Math.log(n)) - 2) / Math.log(n) )
                 - (( Math.pow(Math.log(Math.log(n)),2) - 6 * Math.log(Math.log(n)) - 11 )/( 2 * Math.pow(Math.log(n),2) ))) * n);
         boolean[] isPrimeBools = new boolean[estimatedLimit];
         Arrays.fill(isPrimeBools, true);
-        long[] primeList = new long[n];
-        primeList[0] = 2;
         for (int i = 3; i <= Math.sqrt(estimatedLimit); i+=2) {
             if (isPrimeBools[i]) {
                 for (int j = i*i; j < estimatedLimit; j += i) {
@@ -21,13 +16,16 @@ public class raePrimes2 {
                 }
             }
         }
-        for (int i = 3, foundPrimes = 1; i < isPrimeBools.length && foundPrimes < primeList.length; i += 2) {
+        long finalPrime = 0;
+        for (int i = 3, foundPrimes = 1; i < isPrimeBools.length && foundPrimes <= n; i += 2) {
             if (isPrimeBools[i]) {
-                primeList[foundPrimes] = i;
                 foundPrimes++;
+                if (foundPrimes == n) {
+                    finalPrime = i;
+                }
             }
         }
-        return primeList[n-1];
+        return n == 1 ? 2 : finalPrime;
     }
     public static void main(String[] args) {
         System.out.print(
@@ -38,7 +36,7 @@ public class raePrimes2 {
         int n = Integer.parseInt(in);
         long prime;
 
-        System.out.print("Done!\nSeeking");
+        System.out.print("Done!\nSeeking...");
         double start = System.nanoTime();
         if (n < 1) throw new IllegalArgumentException("Invalid input: " + n + "th prime number does not exist");
         if (n == 1) {
