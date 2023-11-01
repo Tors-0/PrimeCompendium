@@ -11,7 +11,7 @@ public class raePrimes4 {
      * @param primeBooleans our "boolean" array of integers
      * @param x the index in our "boolean" array
      */
-    static void makeComposite(int[] primeBooleans, int x) {
+    private static void makeComposite(int[] primeBooleans, int x) {
         primeBooleans[x/64] |= (1 << ((x >> 1) & 31));
     }
     /**
@@ -22,8 +22,8 @@ public class raePrimes4 {
      * @param x the index in the "boolean" array
      * @return true is x is composite, false if prime
      */
-    public static boolean isComposite(int[] primeBools, int x) {
-        return (primeBools[x/64] & (1 << ((x >> 1) & 31))) == 1;
+    private static boolean isPrime(int[] primeBools, int x) {
+        return (primeBools[x/64] & (1 << ((x >> 1) & 31))) == 0;
     }
 
     /**
@@ -41,7 +41,7 @@ public class raePrimes4 {
         int[] isPrimeBools = new int[estimatedLimit/64 + 1];
         Arrays.fill(isPrimeBools, 0000);
         for (int i = 3; i * i <= estimatedLimit; i+=2) {
-            if (!isComposite(isPrimeBools, i)) {
+            if (isPrime(isPrimeBools, i)) {
                 for (int j = i*i, k = i << 1; j < estimatedLimit; j += k) {
                     makeComposite(isPrimeBools, j);
                 }
@@ -49,7 +49,7 @@ public class raePrimes4 {
         }
         int finalPrime = 1;
         for (int foundPrimes = 1; foundPrimes <= n; finalPrime += 2) {
-            if (!isComposite(isPrimeBools, finalPrime)) {
+            if (isPrime(isPrimeBools, finalPrime)) {
                 foundPrimes++;
             }
         }

@@ -31,8 +31,11 @@ public class aidenPrimes1 {
         System.out.println("\n Starting prime finding process... \n");
         long startTime = System.nanoTime();
         long finalPrime = (algorithmChoice == 1) ? primeFinderStandard(primes) : primeFinderSieve(primes);
-        double runningTime = (System.nanoTime() - startTime) / 1000000000.0;
+        long time = System.nanoTime() - startTime;
+        double runningTime = time / 1000000000.0;
         System.out.println("The " + primes + "th Prime has been found: " + finalPrime + " in " + ((runningTime <= 60) ? runningTime : runningTime/60) + ((runningTime <= 60) ? " seconds" : " minutes"));
+        //added by rae
+        System.out.println("added by rae: nanotime: " + time);
     }
 
     /*
