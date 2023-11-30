@@ -38,18 +38,18 @@ public class raePrimes4 {
          * We're using each individual bit of an int (32 bit) array as a boolean, and only storing odd numbers, so we can
          * cut the array size down to n/64. +1 for OBOE protection
          */
-        int[] isPrimeBools = new int[estimatedLimit/64 + 1];
-        Arrays.fill(isPrimeBools, 0000);
+        int[] isNComposite = new int[estimatedLimit/64 + 1];
+        Arrays.fill(isNComposite, 0000);
         for (int i = 3; i * i <= estimatedLimit; i+=2) {
-            if (isPrime(isPrimeBools, i)) {
+            if (isPrime(isNComposite, i)) {
                 for (int j = i*i, k = i << 1; j < estimatedLimit; j += k) {
-                    makeComposite(isPrimeBools, j);
+                    makeComposite(isNComposite, j);
                 }
             }
         }
         int finalPrime = 1;
         for (int foundPrimes = 1; foundPrimes <= n; finalPrime += 2) {
-            if (isPrime(isPrimeBools, finalPrime)) {
+            if (isPrime(isNComposite, finalPrime)) {
                 foundPrimes++;
             }
         }
