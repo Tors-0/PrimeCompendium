@@ -1,6 +1,6 @@
 import java.util.Scanner;
 
-public class elijahPrimes1 {
+public class eliPrimes1 {
     public static void main(String[] args) {
         System.out.println("what number prime do you want to find? (As in the _th prime)");
         //ASKS USER FOR WHATEVER PRIME THEY WANT TO FIND
