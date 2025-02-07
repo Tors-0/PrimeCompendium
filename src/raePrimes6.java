@@ -47,7 +47,7 @@ public class raePrimes6 {
                 nextProgressMarker = nextProgressMarker * 10 + 9;
             }
             if (checkIfPrime(currentNum)) {
-                for (long j = currentNum*currentNum, k = currentNum << 1; j < estimatedLimit; j += k) {
+                for (long j = currentNum*currentNum, k = currentNum << 1; j <= estimatedLimit; j += k) {
                     markComposite(j);
                 }
             }
