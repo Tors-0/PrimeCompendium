@@ -2,7 +2,7 @@ import java.text.DecimalFormat;
 import java.util.Arrays;
 import java.util.Scanner;
 
-public class raePrimes5 {
+public class raePrimes6 {
     static Scanner scanny = new Scanner(System.in);
     static int[] compositeBooleans;
     /**
@@ -30,15 +30,22 @@ public class raePrimes5 {
      * @return The <i>n</i>th prime number
      */
     public static long primeSieve(int n) {
-        long estimatedLimit = (long)((Math.log(n) + Math.log(Math.log(n)) - 1 + ( (Math.log(Math.log(n)) - 2) / Math.log(n) )
-                - (( Math.pow(Math.log(Math.log(n)),2) - 6 * Math.log(Math.log(n)) - 11 )/( 2 * Math.pow(Math.log(n),2) ))) * n);
+        // estimated limit algorithm sourced from wikipedia
+        long estimatedLimit = (long)((Math.log(n) + Math.log(Math.log(n)) - 1 + ( (Math.log(Math.log(n)) - 2) /
+                Math.log(n) ) - (( Math.pow(Math.log(Math.log(n)),2) - 6 * Math.log(Math.log(n)) - 11 )/
+                ( 2 * Math.pow(Math.log(n),2) ))) * n);
         /*
          * We're using each individual bit of an int (32 bit) array as a boolean, and only storing odd numbers, so we can
          * cut the array size down to n/64. +1 for IndexOutOfBoundsException protection
          */
         compositeBooleans = new int[(int) (estimatedLimit/64) + 1];
         Arrays.fill(compositeBooleans, 0);
+        long nextProgressMarker = 9;
         for (long currentNum = 3; currentNum * currentNum <= estimatedLimit; currentNum+=2) {
+            if (currentNum == nextProgressMarker) {
+                System.out.print(".");
+                nextProgressMarker = nextProgressMarker * 10 + 9;
+            }
             if (checkIfPrime(currentNum)) {
                 for (long j = currentNum*currentNum, k = currentNum << 1; j < estimatedLimit; j += k) {
                     markComposite(j);
@@ -62,9 +69,10 @@ public class raePrimes5 {
         System.out.print("Preprocessing... ");
         long prime;
 
-        System.out.print("Done!\nSeeking...");
+        System.out.print("Done!\nSeeking");
         double start = System.nanoTime();
-        if (n < 1) throw new IllegalArgumentException("Invalid input: " + n + "th prime number does not exist");
+        if (n < 1) throw new IllegalArgumentException("Invalid input: " + n + "th prime number does not exist or " +
+                "is larger than this program can process");
         if (n == 1) {
             prime = 2;
         }
